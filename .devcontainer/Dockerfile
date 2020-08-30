@@ -25,6 +25,4 @@ RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
 ENV PATH $PATH:/root/.poetry/bin
 
 # [Optional] Uncomment this section to install additional OS packages.
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python \
-    && poetry install
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive
