@@ -22,6 +22,7 @@ RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
 #    && rm -rf /tmp/pip-tmp
 
 # 本当はENV PATH $PATH:$HOME/.poetry/bin としたかったがなぜか$HOMEが空になるので直打ち
+# 調べたところDockerfile内では$HOMEは評価されないそう
 ENV PATH $PATH:/root/.poetry/bin
 
 # [Optional] Uncomment this section to install additional OS packages.
