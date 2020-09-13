@@ -20,14 +20,20 @@ services:
       
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
+
+    depends_on:
+      - db
     
     links: 
       - db
     
   db:
     image: postgres
+    container_name: db
     restart: unless-stopped
     ports: 
       - 5432:5432
     environment:
-      POSTGRES_PASSWORD: LocalPassword
+      POSTGRES_USER: db_user
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: cc

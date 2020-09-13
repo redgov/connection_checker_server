@@ -3,6 +3,10 @@ ARG VARIANT=3
 FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
 
 ENV PYTHONUNBUFFERED 1
+# 本当はENV PATH $PATH:$HOME/.poetry/bin としたかったがなぜか$HOMEが空になるので直打ち
+# Dockerfile内では$HOMEは評価されないことに注意
+ENV PATH $PATH:/root/.poetry/bin
+ENV PYTHONPATH $PYTHONPATH:/root/workspace
 
 COPY . /workspace
 WORKDIR /workspace
@@ -14,16 +18,17 @@ RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
         groupmod --gid $USER_GID vscode \
         && usermod --uid $USER_UID --gid $USER_GID vscode \
         && chmod -R $USER_UID:$USER_GID /home/vscode; \
-    fi 
+    fi \
+    && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python \
+    && poetry config virtualenvs.create false \
+    && poetry install
 
 # [Optional] If your requirements rarely change, uncomment this section to add them to the image.
 # COPY requirements.txt /tmp/pip-tmp/
 # RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
 #    && rm -rf /tmp/pip-tmp
 
-# 本当はENV PATH $PATH:$HOME/.poetry/bin としたかったがなぜか$HOMEが空になるので直打ち
-# 調べたところDockerfile内では$HOMEは評価されないそう
-ENV PATH $PATH:/root/.poetry/bin
-
 # [Optional] Uncomment this section to install additional OS packages.
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive
+CMD apt-get update \
+    && export DEBIAN_FRONTEND=noninteractive \
+    && alembic upgrade head

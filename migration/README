@@ -1,0 +1,12 @@
+Generic single-database configuration.
+
+Usage:
+create migration file by models of SQLAlchemy.
+```
+alembic revision --autogenerate -m "Added columns."
+```
+
+create table by latest migration file
+```
+alembic upgrade head
+```
