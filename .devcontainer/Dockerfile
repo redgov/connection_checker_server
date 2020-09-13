@@ -29,6 +29,4 @@ RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
 #    && rm -rf /tmp/pip-tmp
 
 # [Optional] Uncomment this section to install additional OS packages.
-CMD apt-get update \
-    && export DEBIAN_FRONTEND=noninteractive \
-    && alembic upgrade head
+CMD alembic upgrade head
