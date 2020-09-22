@@ -17,4 +17,4 @@ class GroupModel(ModelBase):
     created_at = Column(DateTime, default=datetime.now, nullable=False)
     updated_at = Column(DateTime, default=datetime.now, nullable=False)
     machines = relationship("MachineModel")
-    mail_address_to_machine = relationship("MailAddressToMachineModel")
+    mail_address_to_group = relationship("MailAddressToGroupModel")
