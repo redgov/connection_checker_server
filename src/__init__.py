@@ -6,5 +6,5 @@ from src.models import (
     GroupModel,
     MachineModel,
     MailAddressModel,
-    MailAddressToMachineModel,
+    MailAddressToGroupModel,
 )
