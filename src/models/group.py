@@ -86,3 +86,14 @@ class GroupModel(ModelBase):
             for address in saved_addresses
         ]
         session.add_all(mail_address_to_group_models)
+
+    @classmethod
+    def delete(cls, id: int) -> None:
+
+        session.query(MailAddressToGroupModel). \
+            filter(MailAddressToGroupModel.group_id == id).\
+            delete()
+
+        session.query(cls). \
+            filter(cls.id == id). \
+            delete()
