@@ -24,3 +24,11 @@ async def create_group(groups_post_in: GroupsPostIn):
     group_service = GroupsService()
     group_service.create(groups_post_in.name,
                          groups_post_in.mail_addresses_text)
+
+
+@router.delete(PATH.GROUPS,
+               tags=[TAGS.GROUPS])
+async def delete_group(id: int):
+    group_service = GroupsService()
+    group_service.delete(id)
+                         

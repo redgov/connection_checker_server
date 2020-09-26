@@ -64,6 +64,10 @@ class GroupModel(ModelBase):
         group_model = cls(name)
         session.add(group_model)
 
+        saved_addresses = session.query(MailAddressModel.id). \
+            filter(MailAddressModel.address.in_(mail_addresses)). \
+            all()
+
         mail_address_models = [
             MailAddressModel(address)
             for address in mail_addresses
@@ -76,3 +80,20 @@ class GroupModel(ModelBase):
             for address_model in mail_address_models
         ]
         session.add_all(mail_address_to_group_models)
+
+        mail_address_to_group_models = [
+            MailAddressToGroupModel(address.id, group_model.id)
+            for address in saved_addresses
+        ]
+        session.add_all(mail_address_to_group_models)
+
+    @classmethod
+    def delete(cls, id: int) -> None:
+
+        session.query(MailAddressToGroupModel). \
+            filter(MailAddressToGroupModel.group_id == id).\
+            delete()
+
+        session.query(cls). \
+            filter(cls.id == id). \
+            delete()

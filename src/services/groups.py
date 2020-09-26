@@ -7,7 +7,7 @@ session = Session()
 
 class GroupsService:
 
-    def get(self):
+    def get(self) -> GroupsOut:
         """get groups info
         """
         groups = GroupModel.get()
@@ -15,12 +15,12 @@ class GroupsService:
         for g in groups:
             print(g["addresses"])
 
-        group_out = GroupsOut(groups=[
+        groups_out = GroupsOut(groups=[
             GroupInfo(id=g["id"], name=g["name"], to_addresses=g["addresses"])
             for g in groups
         ])
 
-        return group_out
+        return groups_out
 
 
     def create(self, name: str, mail_addresses_text: str):
@@ -38,4 +38,15 @@ class GroupsService:
         # 前後の空白削除
         mail_addresses = [address.strip() for address in mail_addresses]
         GroupModel.save(name, mail_addresses)
+        session.commit()
+
+    def delete(self, id: int):
+        """delete selected group
+
+        Parameters
+        ----------
+        id : int
+            削除対象のグループのid
+        """
+        GroupModel.delete(id)
         session.commit()
