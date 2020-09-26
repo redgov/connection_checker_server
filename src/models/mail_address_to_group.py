@@ -13,11 +13,11 @@ from sqlalchemy.orm import relationship
 from src.db_setting import ModelBase
 
 
-class MailAddressToMachineModel(ModelBase):
-    """MailAddressToMachineInfo
+class MailAddressToGroupModel(ModelBase):
+    """MailAddressToGroupInfo
     """
 
-    __tablename__ = 'mail_address_to_machine'
+    __tablename__ = 'mail_address_to_group'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     address_id = Column(Integer,
@@ -26,3 +26,7 @@ class MailAddressToMachineModel(ModelBase):
     group_id = Column(Integer, ForeignKey("groups.id"), nullable=False)
     created_at = Column(DateTime, default=datetime.now, nullable=False)
     updated_at = Column(DateTime, default=datetime.now, nullable=False)
+
+    def __init__(self, address_id:int, group_id:int):
+        self.address_id = address_id
+        self.group_id = group_id

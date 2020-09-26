@@ -29,7 +29,8 @@
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"ms-python.python",
-		"ckolkman.vscode-postgres"
+		"ckolkman.vscode-postgres",
+		"yzhang.markdown-all-in-one",
 	],
 
 	// Uncomment the next line if you want start specific services in your Docker Compose config.
