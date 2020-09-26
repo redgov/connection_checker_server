@@ -31,6 +31,7 @@
 		"ms-python.python",
 		"ckolkman.vscode-postgres",
 		"yzhang.markdown-all-in-one",
+		"njpwerner.autodocstring",
 	],
 
 	// Uncomment the next line if you want start specific services in your Docker Compose config.
