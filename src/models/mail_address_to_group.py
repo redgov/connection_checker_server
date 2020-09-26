@@ -26,3 +26,7 @@ class MailAddressToGroupModel(ModelBase):
     group_id = Column(Integer, ForeignKey("groups.id"), nullable=False)
     created_at = Column(DateTime, default=datetime.now, nullable=False)
     updated_at = Column(DateTime, default=datetime.now, nullable=False)
+
+    def __init__(self, address_id:int, group_id:int):
+        self.address_id = address_id
+        self.group_id = group_id
