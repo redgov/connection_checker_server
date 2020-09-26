@@ -29,8 +29,38 @@ class GroupModel(ModelBase):
         self.name = name
 
     @classmethod
+    def get(cls):
+
+        models = session.query(cls.id, cls.name, MailAddressModel.address). \
+            outerjoin(MailAddressToGroupModel,
+                      cls.id == MailAddressToGroupModel.group_id). \
+            outerjoin(MailAddressModel,
+                      MailAddressToGroupModel.address_id == MailAddressModel.id). \
+            order_by(cls.id)
+
+        groups = []
+        group = {}
+        now_group_id = None
+
+        for m in models:
+            if now_group_id != m.id:
+
+                if now_group_id != None:
+                    groups.append(group)
+
+                now_group_id = m.id
+                group = {"id": m.id, "name": m.name,
+                         "addresses": []}
+
+            if m.address != None:
+                group["addresses"].append(m.address)
+        groups.append(group)  # 最後のグループもちゃんと追加
+
+        return groups
+
+    @classmethod
     def save(cls, name: str, mail_addresses: List[str]) -> None:
-        
+
         group_model = cls(name)
         session.add(group_model)
 
@@ -43,6 +73,6 @@ class GroupModel(ModelBase):
 
         mail_address_to_group_models = [
             MailAddressToGroupModel(address_model.id, group_model.id)
-            for address_model in mail_address_models 
+            for address_model in mail_address_models
         ]
         session.add_all(mail_address_to_group_models)

@@ -1,10 +1,27 @@
 from src.db_setting import Session
 from src.models.group import GroupModel
-
+from src.responses.groups import GroupsOut, GroupInfo
+ 
 
 session = Session()
 
-class GroupService:
+class GroupsService:
+
+    def get(self):
+        """get groups info
+        """
+        groups = GroupModel.get()
+
+        for g in groups:
+            print(g["addresses"])
+
+        group_out = GroupsOut(groups=[
+            GroupInfo(id=g["id"], name=g["name"], to_addresses=g["addresses"])
+            for g in groups
+        ])
+
+        return group_out
+
 
     def create(self, name: str, mail_addresses_text: str):
         """create new group
