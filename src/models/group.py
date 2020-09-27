@@ -50,10 +50,11 @@ class GroupModel(ModelBase):
 
                 now_group_id = m.id
                 group = {"id": m.id, "name": m.name,
-                         "addresses": []}
+                         "addresses": ""}
 
             if m.address != None:
-                group["addresses"].append(m.address)
+                group["addresses"] += f"{m.address}\r\n"
+        if group != {}:
         groups.append(group)  # 最後のグループもちゃんと追加
 
         return groups
