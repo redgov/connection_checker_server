@@ -7,7 +7,10 @@ from sqlalchemy import (
     Boolean, 
     DateTime,
 )
-from src.db_setting import ModelBase
+from src.db_setting import ModelBase, Session
+
+
+session = Session()
 
 
 class MachineModel(ModelBase):
@@ -26,3 +29,18 @@ class MachineModel(ModelBase):
     is_active = Column(Boolean, nullable=False)
     created_at = Column(DateTime, default=datetime.now, nullable=False)
     updated_at = Column(DateTime, default=datetime.now, nullable=False)
+
+    def __init__(self,
+                 group_id: int,
+                 name: str,
+                 ip_address: str,
+                 is_active: bool = True):
+        self.group_id = group_id
+        self.name = name
+        self.ip_address = ip_address
+        self.is_active = is_active
+
+    @classmethod
+    def save(cls, group_id: int, name: str, ip_address: str):
+        machine = cls(group_id, name, ip_address)
+        session.add(machine)

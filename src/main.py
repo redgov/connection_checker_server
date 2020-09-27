@@ -1,12 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.routers import groups
+from src.routers import groups, machines
 
 
 app = FastAPI()
 
 app.include_router(groups.router)
+app.include_router(machines.router)
 
 origins = [
     "http://localhost",
