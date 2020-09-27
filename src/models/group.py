@@ -1,4 +1,4 @@
-from typing import List
+from typing import Set
 from datetime import datetime
 
 from sqlalchemy import Column, String, Integer, DateTime
@@ -59,18 +59,22 @@ class GroupModel(ModelBase):
         return groups
 
     @classmethod
-    def save(cls, name: str, mail_addresses: List[str]) -> None:
+    def save(cls, name: str, mail_addresses: Set[str]) -> None:
 
         group_model = cls(name)
         session.add(group_model)
 
-        saved_addresses = session.query(MailAddressModel.id). \
+        saved_address_models = session.query(MailAddressModel.id,
+                                             MailAddressModel.address). \
             filter(MailAddressModel.address.in_(mail_addresses)). \
             all()
 
+        saved_addresses = {m.address for m in saved_address_models}
+        new_mail_addresses = list(mail_addresses - saved_addresses)
+
         mail_address_models = [
             MailAddressModel(address)
-            for address in mail_addresses
+            for address in new_mail_addresses
         ]
         session.add_all(mail_address_models)
         session.flush()
