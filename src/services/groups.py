@@ -5,6 +5,7 @@ from src.responses.groups import GroupsOut, GroupInfo
 
 session = Session()
 
+
 class GroupsService:
 
     def get(self) -> GroupsOut:
@@ -17,7 +18,6 @@ class GroupsService:
         ])
 
         return groups_out
-
 
     def create(self, name: str, mail_addresses_text: str):
         """create new group
@@ -32,7 +32,8 @@ class GroupsService:
 
         mail_addresses = mail_addresses_text.splitlines()
         # 前後の空白削除
-        mail_addresses = [address.strip() for address in mail_addresses]
+        mail_addresses = {address.strip() for address in mail_addresses}
+        mail_addresses = {a for a in mail_addresses if a == ""}
         GroupModel.save(name, mail_addresses)
         session.commit()
 
