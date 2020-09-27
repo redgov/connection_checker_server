@@ -11,10 +11,6 @@ class GroupsService:
         """get groups info
         """
         groups = GroupModel.get()
-
-        for g in groups:
-            print(g["addresses"])
-
         groups_out = GroupsOut(groups=[
             GroupInfo(id=g["id"], name=g["name"], to_addresses=g["addresses"])
             for g in groups
