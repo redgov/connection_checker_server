@@ -33,7 +33,7 @@ class GroupsService:
         mail_addresses = mail_addresses_text.splitlines()
         # 前後の空白削除
         mail_addresses = {address.strip() for address in mail_addresses}
-        mail_addresses = {a for a in mail_addresses if a == ""}
+        mail_addresses = {a for a in mail_addresses if a != ""}
         GroupModel.save(name, mail_addresses)
         session.commit()
 
