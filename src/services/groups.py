@@ -1,7 +1,7 @@
 from src.db_setting import Session
 from src.models.group import GroupModel
 from src.responses.groups import GroupsOut, GroupInfo
- 
+
 
 session = Session()
 
@@ -35,6 +35,25 @@ class GroupsService:
         mail_addresses = {address.strip() for address in mail_addresses}
         mail_addresses = {a for a in mail_addresses if a == ""}
         GroupModel.save(name, mail_addresses)
+        session.commit()
+
+    def update(self, id: int, name: str, mail_addresses_text: str):
+        """update group
+
+        Parameters
+        ----------
+        id : int
+            更新対象グループのID
+        name : str
+            グループ名
+        mail_addresses_text : str
+            改行で区切られたメールアドレス群の文字列
+        """
+        # 文字列をリスト化
+        mail_addresses = mail_addresses_text.splitlines()
+        # 前後の空白削除
+        mail_addresses = {address.strip() for address in mail_addresses}
+        GroupModel.update(id, name, mail_addresses)
         session.commit()
 
     def delete(self, id: int):

@@ -5,7 +5,7 @@ from pydantic import BaseModel
 class GroupInfo(BaseModel):
     id: int
     name: str
-    to_addresses: List[str]
+    to_addresses: str
 
 
 class GroupsOut(BaseModel):

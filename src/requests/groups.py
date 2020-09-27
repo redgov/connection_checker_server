@@ -6,3 +6,11 @@ class GroupsPostIn(BaseModel):
     """
     name: str
     mail_addresses_text: str
+
+
+class GroupsPutIn(BaseModel):
+    """グループ編集時のリクエストモデル
+    """
+    id: int
+    name: str
+    mail_addresses_text: str
