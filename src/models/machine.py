@@ -41,6 +41,11 @@ class MachineModel(ModelBase):
         self.is_active = is_active
 
     @classmethod
+    def get(cls):
+        machines = session.query(cls).all()
+        return machines
+
+    @classmethod
     def save(cls, group_id: int, name: str, ip_address: str):
         machine = cls(group_id, name, ip_address)
         session.add(machine)
