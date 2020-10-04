@@ -12,7 +12,7 @@ router = APIRouter()
 @router.get(PATH.MACHINES,
             response_model=MachinesOut,
             tags=[TAGS.MACHINES])
-async def get_machines():
+async def get():
     machines_service = MachinesService()
     machine_out = machines_service.get()
     return machine_out
@@ -20,10 +20,17 @@ async def get_machines():
 
 @router.post(PATH.MACHINES,
              tags=[TAGS.MACHINES])
-async def create_group(machines_post_in: MachinesPostIn):
+async def create(machines_post_in: MachinesPostIn):
     machines_service = MachinesService()
     machines_service.create(
         machines_post_in.group_id,
         machines_post_in.name,
         machines_post_in.ip_address,
     )
+
+
+@router.delete(PATH.MACHINES,
+             tags=[TAGS.MACHINES])
+async def delete(id: int):
+    machines_service = MachinesService()
+    machines_service.delete(id)

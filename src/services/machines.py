@@ -32,3 +32,15 @@ class MachinesService:
         """
         MachineModel.save(group_id, name, ip_address)
         session.commit()
+
+    def delete(self, id: int) -> None:
+        """指定されたマシン削除
+
+        Parameters
+        ----------
+        id : int
+            削除対象マシンID
+        """        
+        MachineModel.delete(id)
+        session.commit()
+        
