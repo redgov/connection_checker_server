@@ -7,6 +7,7 @@ from sqlalchemy.orm import relationship
 from src.db_setting import ModelBase, Session
 from src.models.mail_address import MailAddressModel
 from src.models.mail_address_to_group import MailAddressToGroupModel
+from src.models.machine import MachineModel
 
 
 session = Session()
@@ -157,6 +158,10 @@ class GroupModel(ModelBase):
 
     @classmethod
     def delete(cls, id: int) -> None:
+
+        session.query(MachineModel). \
+            filter(MachineModel.group_id == id). \
+            delete()
 
         session.query(MailAddressToGroupModel). \
             filter(MailAddressToGroupModel.group_id == id).\

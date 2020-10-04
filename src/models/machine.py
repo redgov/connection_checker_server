@@ -49,3 +49,7 @@ class MachineModel(ModelBase):
     def save(cls, group_id: int, name: str, ip_address: str):
         machine = cls(group_id, name, ip_address)
         session.add(machine)
+
+    @classmethod
+    def delete(cls, id: int) -> None:
+        session.query(cls).filter(cls.id == id).delete()
