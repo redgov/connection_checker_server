@@ -37,7 +37,8 @@ class GroupModel(ModelBase):
                       cls.id == MailAddressToGroupModel.group_id). \
             outerjoin(MailAddressModel,
                       MailAddressToGroupModel.address_id == MailAddressModel.id). \
-            order_by(cls.id)
+            order_by(cls.id). \
+            all()
 
         groups = []
         group = {}

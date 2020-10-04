@@ -42,7 +42,7 @@ class MachineModel(ModelBase):
 
     @classmethod
     def get(cls):
-        machines = session.query(cls).all()
+        machines = session.query(cls).order_by(cls.id).all()
         return machines
 
     @classmethod
