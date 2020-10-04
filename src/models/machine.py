@@ -2,9 +2,9 @@ from datetime import datetime
 from sqlalchemy import (
     Column,
     ForeignKey,
-    String, 
-    Integer, 
-    Boolean, 
+    String,
+    Integer,
+    Boolean,
     DateTime,
 )
 from src.db_setting import ModelBase, Session
@@ -42,13 +42,27 @@ class MachineModel(ModelBase):
 
     @classmethod
     def get(cls):
-        machines = session.query(cls).all()
+        machines = session.query(cls).order_by(cls.id).all()
         return machines
 
     @classmethod
     def save(cls, group_id: int, name: str, ip_address: str):
         machine = cls(group_id, name, ip_address)
         session.add(machine)
+
+    @classmethod
+    def update(cls,
+               machine_id: int,
+               group_id: int,
+               name: str,
+               address: str,
+               is_active: bool) -> None:
+
+        machine = session.query(cls).filter(cls.id == machine_id).scalar()
+        machine.group_id = group_id
+        machine.name = name
+        machine.ip_address = address
+        machine.is_active = is_active
 
     @classmethod
     def delete(cls, id: int) -> None:
